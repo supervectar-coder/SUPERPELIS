@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>SUPERVECTAR PELIS</title>
+<style>
+:root{
+  --bg:#071025;
+  --card:#0b1220;
+  --muted:#9aa4b2;
+  --highlight:#ffeb3b;
+  --font-size:16px;
+}
+body{
+  font-family:Inter,system-ui;
+  background:linear-gradient(180deg,#041025 0%,var(--bg) 100%);
+  color:#eef2f7;
+  margin:0;
+  padding:16px;
+  font-size: var(--font-size);
+  overflow-x:hidden;
+}
+header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;}
+h1{font-size:20px;margin:0;color:var(--highlight);font-weight:900;text-shadow:0 0 6px rgba(255,255,0,0.5);}
+input[type=search], select{padding:12px 16px;border-radius:10px;border:1px solid rgba(0,0,0,0.4);background:var(--highlight);color:#000;font-weight:bold;font-size:16px;}
+h2{margin-top:24px;color:#ffeb3b;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;scroll-behavior:smooth;overflow-x:auto;}
+.card{cursor:pointer;border-radius:8px;overflow:hidden;outline:none;transition: transform 0.2s, box-shadow 0.2s;}
+.card:hover, .card:focus{transform: scale(1.05); box-shadow:0 8px 20px rgba(255,235,59,0.6);}
+.card .img{width:100%;height:220px;object-fit:cover;border-radius:8px;}
+.card .title{font-weight:700;font-size:14px;margin-top:4px;}
+.card .meta{color:var(--muted);font-size:12px;margin-top:2px;}
+.pagination{display:flex;justify-content:center;gap:6px;margin-top:12px;}
+.pagination button{padding:10px 14px;border-radius:6px;border:1px solid #fff;background:transparent;color:#fff;cursor:pointer;font-size:14px;}
+.pagination button.active{background:var(--highlight);color:#000;}
+.pagination button:hover, .pagination button:focus{background:var(--highlight);color:#000;outline:none;}
+.grid::-webkit-scrollbar{display:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <img src="https://i.ibb.co/HpTQSGB3/cineseries.png" style="height:42px;width:42px;border-radius:50%;object-fit:cover;">
+    <div><h1>SUPERVECTAR PELIS</h1></div>
+  </div>
+  <div class="controls" style="display:flex;gap:8px;flex-wrap:wrap;">
+    <input id="search" type="search" placeholder="Buscar..." tabindex="0">
+    <select id="genre-filter" tabindex="0">
+      <option value="all">Género</option>
+      <option value="PelisEspañolas">Pelis Españolas</option>	  
+      <option value="Acción">Acción</option>
+      <option value="Comedia">Comedia</option>
+      <option value="Drama">Drama</option>
+      <option value="Sci-Fi">Sci-Fi</option>
+      <option value="Thriller">Thriller</option>	  
+      <option value="Terror">Terror</option>
+    </select>
+    <select id="filterYear" style="width:100px" tabindex="0"><option value="">Año</option></select>
+  </div>
+</header>
+
+<main>
+  <h2>Películas</h2>
+  <div id="movies-grid" class="grid"></div>
+  <div id="movies-pagination" class="pagination"></div>
+</main>
+
+<script>
+// ===== Datos =====
+const mediaData = [
+  { id:'laguerradelosmundos', title:'La guerra de los mundos', year:2025, genre:'Sci-Fi', poster:'https://pics.filmaffinity.com/war_of_the_worlds-696322913-large.jpg', link:'https://filemoon.to/d/0jzsw66tzd1k/La_guerra_de_los_mundos_mp4.mp4'},
+  { id:'jurassicworldelrenacer', title:'Jurassic world: El renacer', year:2025, genre:'Sci-Fi', poster:'https://es.web.img2.acsta.net/r_1920_1080/img/b5/8e/b58eb14511f96ff489d1aa6972af8b1a.jpg', link:'https://filemoon.to/d/c46318ygoi0p/JURASSIC_WORLD_EL_RENACER_mp4.mp4'},
+  { id:'superman', title:'Superman', year:2025, genre:'Sci-Fi', poster:'https://es.web.img2.acsta.net/r_1920_1080/img/b3/3e/b33e01f98f8ca3702a3554791633fd6c.jpg', link:'https://filemoon.to/d/77a0ye6456sl/Superman_2025_mp4.mp4'},
+  { id:'los4fantasticos', title:'Los 4 Fantásticos: primeros pasos', year:2025, genre:'Sci-Fi', poster:'https://es.web.img2.acsta.net/r_1920_1080/img/a8/7c/a87c158d7a0c9ac165a2d6e740c14af7.jpg', link:'https://filemoon.to/d/2tjdlfxcuhaw/Los_Cuatro_Fant_sticos_Primeros_pasos_mp4.mp4'},  
+  { id:'capitanamerica', title:'Capitán América: Brave New World', year:2025, genre:'Sci-Fi', poster:'https://es.web.img2.acsta.net/r_1920_1080/img/7f/40/7f40c04fa15064966afb73581ba2feab.jpg', link:'https://filemoon.to/d/dgqpjua2chwk/Captain_America_Brave_New_World_2025_mp4.mp4'},
+  { id:'Terrifier3', title:'Terrifier 3', year:2024, genre:'Terror', poster:'https://es.web.img3.acsta.net/r_1920_1080/pictures/23/11/08/08/26/3084799.jpg', link:'https://filemoon.to/d/f234g0c8s0ye/Terrifier_3__2024___Esp_.mkv'},
+  { id:'Terrifier2', title:'Terrifier 2', year:2022, genre:'Terror', poster:'https://es.web.img3.acsta.net/r_1920_1080/pictures/22/12/27/12/24/4448854.jpg', link:'https://filemoon.to/d/otitf2ppt4f1/Terrifier_2.mp4'},
+  { id:'Terrifier1', title:'Terrifier 1', year:2016, genre:'Terror', poster:'https://es.web.img3.acsta.net/r_1920_1080/pictures/23/05/22/23/33/0283734.png', link:'https://filemoon.to/d/itcjbe3ajf33/Terrifier.mp4'},  
+  { id:'28añosdespues', title:'28 años despues', year:2025, genre:'Terror', poster:'https://es.web.img3.acsta.net/r_1920_1080/img/5c/f3/5cf309bb27c25dd8a20548e7e6ae9d94.jpg', link:'https://filemoon.to/d/ercrsideydgg/28_a_os_despu_s_mp4.mp4'},
+  { id:'28semanasdespues', title:'28 semanas despues', year:2007, genre:'Terror', poster:'https://es.web.img2.acsta.net/r_1920_1080/medias/nmedia/18/89/50/99/20051366.jpg', link:'https://filemoon.to/d/cqpuueqy1v9b/28_semanas_despu_s_Castellano__2007_.mp4'},
+  { id:'28diasdespues', title:'28 dias despues', year:2002, genre:'Terror', poster:'https://es.web.img2.acsta.net/r_1920_1080/medias/nmedia/18/79/49/98/19505162.jpg', link:'https://filemoon.to/d/0cyrzddgiqbg/28_Dias_despues_Castellano__2002_.mp4'},
+];
+
+// ===== Variables =====
+let itemsPerPage = 12; 
+let moviePage = 1;
+let filteredData = mediaData;
+let movieFocus = 0;
+
+// ===== Elementos =====
+const searchEl = document.getElementById('search');
+const genreEl = document.getElementById('genre-filter');
+const yearEl = document.getElementById('filterYear');
+const moviesEl = document.getElementById('movies-grid');
+const moviesPagEl = document.getElementById('movies-pagination');
+
+// ===== Filtros dinámicos =====
+[...new Set(mediaData.map(i=>i.year))].sort((a,b)=>b-a).forEach(y=>{
+  const o=document.createElement('option'); o.value=y; o.textContent=y; yearEl.appendChild(o);
+});
+
+// ===== Render películas =====
+function renderMovies(data){
+  const movies = data;
+  const totalPages = Math.ceil(movies.length/itemsPerPage) || 1;
+  if(moviePage>totalPages) moviePage=totalPages;
+
+  const start = (moviePage-1)*itemsPerPage;
+  const end = start + itemsPerPage;
+
+  moviesEl.innerHTML='';
+  movies.slice(start,end).forEach((item, idx)=>{
+    const div=document.createElement('div');
+    div.className='card'; div.tabIndex=0;
+    div.dataset.index = idx;
+    div.innerHTML=`<img class="img" src="${item.poster}">
+                     <div class="info">
+                       <div class="title">${item.title}</div>
+                       <div class="meta">${item.year} • ${item.genre}</div>
+                     </div>`;
+    div.onclick=()=>window.open(item.link,'_blank');
+    moviesEl.appendChild(div);
+  });
+
+  // Paginación
+  moviesPagEl.innerHTML='';
+  for(let i=1;i<=totalPages;i++){
+    const btn=document.createElement('button'); btn.textContent=i;
+    if(i===moviePage) btn.classList.add('active');
+    btn.onclick=()=>{ moviePage=i; movieFocus=0; renderMovies(filteredData); };
+    moviesPagEl.appendChild(btn);
+  }
+
+  setFocus(movieFocus);
+}
+
+// ===== Filtros =====
+function applyFilters(){
+  const q = searchEl.value.toLowerCase();
+  const genre = genreEl.value;
+  const year = yearEl.value;
+
+  filteredData = mediaData.filter(m=>
+    (genre==='all'||m.genre===genre) &&
+    (!year||String(m.year)===year) &&
+    m.title.toLowerCase().includes(q)
+  );
+  moviePage=1;
+  movieFocus=0;
+  renderMovies(filteredData);
+}
+
+searchEl.oninput=genreEl.onchange=yearEl.onchange=applyFilters;
+
+// ===== Foco teclado con paginación y desplazamiento =====
+function setFocus(idx){
+  const cards = moviesEl.querySelectorAll('.card');
+  if(cards[idx]){
+    cards[idx].focus();
+    // Desplazamiento horizontal si está fuera de la vista
+    const rect = cards[idx].getBoundingClientRect();
+    const gridRect = moviesEl.getBoundingClientRect();
+    if(rect.left < gridRect.left) moviesEl.scrollLeft -= (gridRect.left - rect.left + 10);
+    if(rect.right > gridRect.right) moviesEl.scrollLeft += (rect.right - gridRect.right + 10);
+  }
+}
+
+document.addEventListener('keydown', e=>{
+  const cards = moviesEl.querySelectorAll('.card');
+  if(cards.length===0) return;
+
+  if(e.key==='ArrowRight'){
+    movieFocus++;
+    if(movieFocus>=cards.length){
+      moviePage++;
+      movieFocus=0;
+      renderMovies(filteredData);
+    } else setFocus(movieFocus);
+    e.preventDefault();
+  }
+
+  if(e.key==='ArrowLeft'){
+    movieFocus--;
+    if(movieFocus<0){
+      if(moviePage>1){
+        moviePage--;
+        renderMovies(filteredData);
+        const newCards = moviesEl.querySelectorAll('.card');
+        movieFocus = newCards.length - 1;
+        setFocus(movieFocus);
+      } else movieFocus=0;
+    } else setFocus(movieFocus);
+    e.preventDefault();
+  }
+
+  if(e.key==='ArrowDown'){
+    movieFocus += 4;
+    const cardsLength = moviesEl.querySelectorAll('.card').length;
+    if(movieFocus>=cardsLength){
+      moviePage++;
+      movieFocus = movieFocus % cardsLength;
+      renderMovies(filteredData);
+    } else setFocus(movieFocus);
+    e.preventDefault();
+  }
+
+  if(e.key==='ArrowUp'){
+    movieFocus -= 4;
+    if(movieFocus<0){
+      if(moviePage>1){
+        moviePage--;
+        renderMovies(filteredData);
+        const newCards = moviesEl.querySelectorAll('.card');
+        movieFocus = newCards.length + movieFocus;
+        setFocus(movieFocus);
+      } else movieFocus=0;
+    } else setFocus(movieFocus);
+    e.preventDefault();
+  }
+
+  if(e.key==='Enter'){ cards[movieFocus].click(); e.preventDefault(); }
+});
+
+// ===== Inicializar =====
+renderMovies(mediaData);
+</script>
+
+</body>
+</html>
+
