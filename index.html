@@ -48,8 +48,7 @@ h2{margin-top:24px;color:#ffeb3b;}
   <div class="controls" style="display:flex;gap:8px;flex-wrap:wrap;">
     <input id="search" type="search" placeholder="Buscar..." tabindex="0">
     <select id="genre-filter" tabindex="0">
-      <option value="all">Género</option>
-      <option value="PelisEspañolas">Pelis Españolas</option>	  
+      <option value="all">Género</option>	  
       <option value="Acción">Acción</option>
       <option value="Comedia">Comedia</option>
       <option value="Drama">Drama</option>
@@ -70,6 +69,10 @@ h2{margin-top:24px;color:#ffeb3b;}
 <script>
 // ===== Datos =====
 const mediaData = [
+  { id:'AWorkingMan', title:' A Working Man', year:2025, genre:'Acción', poster:'https://es.web.img3.acsta.net/r_1920_1080/img/f7/e8/f7e8bfab7ff4411747575a774235610f.jpeg', link:'https://filemoon.to/d/wgozrp1ktvh3/A_Working_Man__2025___Bluray_720p_Esp_.mkv'},
+  { id:'BeekeeperElprotector', title:'Beekeeper El protector', year:2024, genre:'Acción', poster:'https://es.web.img3.acsta.net/r_1920_1080/pictures/24/01/09/15/29/1029381.jpg', link:'https://filemoon.to/d/zjdtx24v5uzd/Beekeeper_El_protector__2024___Bluray_720p_Esp_.mkv'},
+  { id:'Alarum', title:'Alarum', year:2025, genre:'Acción', poster:'https://es.web.img3.acsta.net/r_1920_1080/img/cc/62/cc628393f36744bd7f7606dd094f4cf5.jpeg', link:'https://filemoon.to/d/7k4af1j6sc9k/Alarum__2024___Bluray_720p_esp_.mkv'},  
+  { id:'Armor', title:'Armor', year:2024, genre:'Acción', poster:'https://es.web.img2.acsta.net/r_1920_1080/img/80/ed/80ed90244649bc1dbfca32777ed0115a.jpg', link:'https://filemoon.to/d/gx6dfdcx8mi8/Armor__2024___Bluray_720p_Esp_.mkv'},
   { id:'laguerradelosmundos', title:'La guerra de los mundos', year:2025, genre:'Sci-Fi', poster:'https://pics.filmaffinity.com/war_of_the_worlds-696322913-large.jpg', link:'https://filemoon.to/d/0jzsw66tzd1k/La_guerra_de_los_mundos_mp4.mp4'},
   { id:'jurassicworldelrenacer', title:'Jurassic world: El renacer', year:2025, genre:'Sci-Fi', poster:'https://es.web.img2.acsta.net/r_1920_1080/img/b5/8e/b58eb14511f96ff489d1aa6972af8b1a.jpg', link:'https://filemoon.to/d/c46318ygoi0p/JURASSIC_WORLD_EL_RENACER_mp4.mp4'},
   { id:'superman', title:'Superman', year:2025, genre:'Sci-Fi', poster:'https://es.web.img2.acsta.net/r_1920_1080/img/b3/3e/b33e01f98f8ca3702a3554791633fd6c.jpg', link:'https://filemoon.to/d/77a0ye6456sl/Superman_2025_mp4.mp4'},
@@ -84,7 +87,7 @@ const mediaData = [
 ];
 
 // ===== Variables =====
-let itemsPerPage = 12; 
+let itemsPerPage = 30; 
 let moviePage = 1;
 let filteredData = mediaData;
 let movieFocus = 0;
