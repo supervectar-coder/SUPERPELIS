@@ -52,8 +52,7 @@ h2{margin-top:24px;color:#ffeb3b;}
       <option value="Acción">Acción</option>
       <option value="Comedia">Comedia</option>
       <option value="Drama">Drama</option>
-      <option value="Sci-Fi">Sci-Fi</option>
-      <option value="Thriller">Thriller</option>	  
+      <option value="Sci-Fi">Sci-Fi</option>	  
       <option value="Terror">Terror</option>
     </select>
     <select id="filterYear" style="width:100px" tabindex="0"><option value="">Año</option></select>
@@ -92,7 +91,9 @@ const mediaData = [
   { id:'alertaroja', title:'Alerta roja', year:2021, genre:'Acción', poster:'https://es.web.img2.acsta.net/r_1920_1080/pictures/21/10/21/15/51/3458190.jpg', link:'https://filemoon.to/d/m6hq5th2mdie/Alerta_roja__2021__Esp.avi'},        
   { id:'deadpoolylobezno', title:'Deadpool y lobezno', year:2024, genre:'Acción', poster:'https://es.web.img3.acsta.net/r_1920_1080/img/3f/2e/3f2efc609e5e23d748f1d44231bf6b2f.jpg', link:'https://filemoon.to/d/mf84hfml0o2j/Deadpool_y_Lobezno__2024__Esp.mp4'},        
   { id:'ElproyectoAdam', title:'El proyecto Adam', year:2022, genre:'Acción', poster:'https://es.web.img3.acsta.net/r_1920_1080/pictures/22/03/01/15/19/5343614.jpg', link:'https://filemoon.to/d/02cx35bq8z22/El_proyecto_Adam__2022__Esp.avi'},  
-  { id:'rendfield', title:'Rendfield', year:2023, genre:'Terror', poster:'https://es.web.img2.acsta.net/r_1920_1080/pictures/23/01/16/12/22/1834952.jpg', link:'https://filemoon.to/d/hf46v09h4j9n/Renfield__2023__Esp.mkv'},  
+  { id:'Gunslingers', title:'Gunslingers', year:2025, genre:'Acción', poster:'https://pics.filmaffinity.com/gunslingers-565790328-large.jpg', link:'https://filemoon.to/d/gouh0x2c6rbc/Gunslingers__2025__Esp.mp4'},
+  { id:'arcadian', title:'Arcadian', year:2024, genre:'Terror', poster:'https://pics.filmaffinity.com/arcadian-552096259-large.jpg', link:'https://filemoon.to/d/r3rg55o2eqj4/Arcadian__2024__Esp.mp4'},  
+  { id:'rendfield', title:'Rendfield', year:2023, genre:'Terror', poster:'https://es.web.img2.acsta.net/r_1920_1080/pictures/23/01/16/12/22/1834952.jpg', link:'https://filemoon.to/d/hf46v09h4j9n/Renfield__2023__Esp.mkv'},    
   { id:'DestinofinalLazosdesangre', title:'Destino final Lazos de sangre', year:2025, genre:'Terror', poster:'https://es.web.img3.acsta.net/r_1920_1080/img/9b/98/9b98ab62cbc8ef37c708c652dc72a905.jpg', link:'https://filemoon.to/d/avn2c36h1rrq/Destino_final_Lazos_de_sangre__2025__Esp.avi'},
   { id:'seloquehicisteiselultimoverano', title:'se lo que hicisteis el ultimo verano', year:2025, genre:'Terror', poster:'https://es.web.img3.acsta.net/r_1920_1080/img/a0/f6/a0f6986ac45b6ef8ae0ebff95cf9939b.jpg', link:'https://filemoon.to/d/a93d9e0f98ve/Se_lo_que_hicisteis_el_ultimo_verano__2025__Esp.mp4'}, 
   { id:'laguerradelosmundos', title:'La guerra de los mundos', year:2025, genre:'Sci-Fi', poster:'https://pics.filmaffinity.com/war_of_the_worlds-696322913-large.jpg', link:'https://filemoon.to/d/0jzsw66tzd1k/La_guerra_de_los_mundos_mp4.mp4'},
@@ -100,6 +101,7 @@ const mediaData = [
   { id:'superman', title:'Superman', year:2025, genre:'Sci-Fi', poster:'https://es.web.img2.acsta.net/r_1920_1080/img/b3/3e/b33e01f98f8ca3702a3554791633fd6c.jpg', link:'https://filemoon.to/d/77a0ye6456sl/Superman_2025_mp4.mp4'},
   { id:'los4fantasticos', title:'Los 4 Fantásticos: primeros pasos', year:2025, genre:'Sci-Fi', poster:'https://es.web.img2.acsta.net/r_1920_1080/img/a8/7c/a87c158d7a0c9ac165a2d6e740c14af7.jpg', link:'https://filemoon.to/d/2tjdlfxcuhaw/Los_Cuatro_Fant_sticos_Primeros_pasos_mp4.mp4'},  
   { id:'capitanamerica', title:'Capitán América: Brave New World', year:2025, genre:'Sci-Fi', poster:'https://es.web.img2.acsta.net/r_1920_1080/img/7f/40/7f40c04fa15064966afb73581ba2feab.jpg', link:'https://filemoon.to/d/dgqpjua2chwk/Captain_America_Brave_New_World_2025_mp4.mp4'},
+  { id:'IndianaJonesyeldialdeldestino', title:'Indiana Jones y el dial del destino', year:2023, genre:'Sci-Fi', poster:'https://es.web.img2.acsta.net/r_1920_1080/pictures/23/05/23/09/22/5897937.jpg', link:'https://filemoon.to/d/u66x0fb4hj8t/Indiana_Jones_y_el_dial_del_destino__2023__Esp.mp4'},  
   { id:'Terrifier3', title:'Terrifier 3', year:2024, genre:'Terror', poster:'https://es.web.img3.acsta.net/r_1920_1080/pictures/23/11/08/08/26/3084799.jpg', link:'https://filemoon.to/d/f234g0c8s0ye/Terrifier_3__2024___Esp_.mkv'},
   { id:'Terrifier2', title:'Terrifier 2', year:2022, genre:'Terror', poster:'https://es.web.img3.acsta.net/r_1920_1080/pictures/22/12/27/12/24/4448854.jpg', link:'https://filemoon.to/d/otitf2ppt4f1/Terrifier_2.mp4'},
   { id:'Terrifier1', title:'Terrifier 1', year:2016, genre:'Terror', poster:'https://es.web.img3.acsta.net/r_1920_1080/pictures/23/05/22/23/33/0283734.png', link:'https://filemoon.to/d/itcjbe3ajf33/Terrifier.mp4'},  
